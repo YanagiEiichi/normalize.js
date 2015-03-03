@@ -1,0 +1,20 @@
+{
+  "name": "normalize.js",
+  "main": "normalize.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/YanagiEiichi/normalize.js",
+  "authors": [
+    "YanagiEiichi <admin@web-tinker.com>"
+  ],
+  "keywords": [
+    "normailize.js"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
