@@ -1,0 +1,7 @@
+{
+  "name": "tests",
+  "version": "N/A",
+  "dependencies": {
+    "tester": "~0.0.10"
+  }
+}

@@ -1,0 +1,12 @@
+<script src="bower_components/tester/tester.js"></script>
+<script src="../normalize.js"></script>
+<script>
+localStorage.setItem('a', 233);
+localStorage.setItem('b', 233);
+Tester.assert(localStorage.getItem('a')  === '233', 'Item getting error');
+localStorage.removeItem('a');
+Tester.assert(localStorage.getItem('a')  === null, 'Item removing error');
+localStorage.clear();
+Tester.assert(localStorage.getItem('b')  === null, 'Clearing error');
+Tester.feedback(true);
+</script>
