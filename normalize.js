@@ -53,7 +53,7 @@ void function() {
         z[0] = -z[0];
         z[1] = -z[1];
       }
-      return new Date(Date.UTC(raw[1], raw[2] - 1, raw[3], raw[4] - z[0], raw[5] - z[1], raw[6] | 0, raw[7] | 0));
+      return Date.UTC(raw[1], raw[2] - 1, raw[3], raw[4] - z[0], raw[5] - z[1], raw[6] | 0, raw[7] | 0);
     } else {
       return parse.apply(this, arguments);
     }
