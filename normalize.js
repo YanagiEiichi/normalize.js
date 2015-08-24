@@ -26,7 +26,7 @@ void function() {
     };
     localStorage.getItem = function(key) {
       // 项不存在时返回 null 而不是 undefined 
-      return key in heap ? heap[prefix + key] : null;
+      return (prefix + key) in heap ? heap[prefix + key] : null;
     };
     localStorage.removeItem = function(key) {
       delete heap[prefix + key];
