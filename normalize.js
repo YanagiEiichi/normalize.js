@@ -24,6 +24,8 @@ void function() {
       localStorage.removeItem(hash);
     }
   } catch(e) {
+    // 此时还没有 localStorage 就表示这货是全局不可写且不可配置的 null
+    if(!localStorage) return setTimeout(function() { throw new Error('The fucking localStorage is a hard null.'); });
     // 若 localStorage 不可用则将其方法对应到一个临时堆上储存
     var heap = {};
     // 所有 key 都加一个前缀以防止与原生属性冲突
