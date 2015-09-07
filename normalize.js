@@ -2,8 +2,15 @@
   这个文件中的所有定义都必须是规范的，只用于修复一些浏览器兼容问题
 ********************************************************************/
 
+// 解决一些奇怪的 WebView 中 localStorage 未开放的问题
+var localStorage;
+if(!localStorage) {
+  // 可能是一个 ready only 的 null，所以需要先删除
+  delete localStorage;
+  localStorage = {};
+}
+
 // 解决隐私模式下 localStorage 不正常问题
-var localStorage = window.localStorage || {};
 void function() { 
   // 使用一个 32 位以上的 36 进制字符串作为 key 以防止冲突
   var hash = '';
