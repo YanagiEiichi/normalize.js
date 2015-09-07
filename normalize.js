@@ -3,6 +3,7 @@
 ********************************************************************/
 
 // 解决隐私模式下 localStorage 不正常问题
+var localStorage = window.localStorage || {};
 void function() { 
   // 使用一个 32 位以上的 36 进制字符串作为 key 以防止冲突
   var hash = '';
