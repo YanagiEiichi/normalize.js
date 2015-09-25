@@ -3,7 +3,8 @@
 ********************************************************************/
 
 // 解决一些奇怪的 WebView 中 localStorage 未开放的问题
-if (!document.documentMode) {
+// 排除 IE，因为 IE8 上 var 一个 localStorage 会出问题
+if(!document.documentMode) {
   var localStorage;
   if(!localStorage) {
     // 可能是一个 ready only 的 null，所以需要先删除
