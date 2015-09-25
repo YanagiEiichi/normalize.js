@@ -3,11 +3,13 @@
 ********************************************************************/
 
 // 解决一些奇怪的 WebView 中 localStorage 未开放的问题
-var localStorage;
-if(!localStorage) {
-  // 可能是一个 ready only 的 null，所以需要先删除
-  delete localStorage;
-  localStorage = {};
+if (!document.documentMode) {
+  var localStorage;
+  if(!localStorage) {
+    // 可能是一个 ready only 的 null，所以需要先删除
+    delete localStorage;
+    localStorage = {};
+  }
 }
 
 // 解决隐私模式下 localStorage 不正常问题
