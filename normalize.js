@@ -3,14 +3,22 @@
 ********************************************************************/
 
 // 解决一些奇怪的 WebView 中 localStorage 未开放的问题
-// 排除 IE，因为 IE8 上 var 一个 localStorage 会出问题
-if(!document.documentMode) {
-  var localStorage;
-  if(!localStorage) {
-    // 可能是一个 ready only 的 null，所以需要先删除
-    delete localStorage;
+// 此处包一个 try cache，因为无法预料一些奇葩的环境出什么异常
+try {
+  // 此处不能 var localStorage，在 IE9/10 会出现常量重复定义的错误
+  // 如果它不是 object 那就肯定是一坨奇奇怪怪的的东西
+  if(typeof localStorage !== 'object') {
+    // 可能是一个 ready only 的，所以需要先删除
+    // 但是严格模式中删除不存在的属性会出错，所以先判断
+    if('localStorage' in self) delete localStorage;
+    // 重新赋值为对象
     localStorage = {};
   }
+} catch(error) {
+   // 异步抛出，避免影响当前执行帧
+  setTimeout(function() {
+    throw error;
+  });
 }
 
 // 解决隐私模式下 localStorage 不正常问题
