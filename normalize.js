@@ -22,7 +22,7 @@ try {
 }
 
 // 解决隐私模式下 localStorage 不正常问题
-void function() { 
+void function() {
   // 使用一个 32 位以上的 36 进制字符串作为 key 以防止冲突
   var hash = '';
   while(hash.length < 32) {
@@ -46,13 +46,51 @@ void function() {
        heap[prefix + key] = value + '';
     };
     localStorage.getItem = function(key) {
-      // 项不存在时返回 null 而不是 undefined 
+      // 项不存在时返回 null 而不是 undefined
       return (prefix + key) in heap ? heap[prefix + key] : null;
     };
     localStorage.removeItem = function(key) {
       delete heap[prefix + key];
     };
     localStorage.clear = function() {
+      heap = {};
+    };
+  }
+}();
+
+// 解决隐私模式下 sessionStorage 不正常问题
+// （据说）不用 setItem，访问 localStorage 这个引用就会报错，所以上面代码不能复用
+void function() {
+  // 使用一个 32 位以上的 36 进制字符串作为 key 以防止冲突
+  var hash = '';
+  while(hash.length < 32) {
+    hash += Math.floor(Math.pow(36, 10) * Math.random()).toString(36);
+  }
+  try {
+    // 测试 localStroage 是否可用
+    sessionStorage.setItem(hash, hash);
+    if(hash === sessionStorage.getItem(hash)) {
+      sessionStorage.removeItem(hash);
+    }
+  } catch(e) {
+    // 此时还没有 sessionStorage 就表示这货是全局不可写且不可配置的 null
+    if(!sessionStorage) return setTimeout(function() { throw new Error('The fucking sessionStorage is a hard null.'); });
+    // 若 sessionStorage 不可用则将其方法对应到一个临时堆上储存
+    var heap = {};
+    // 所有 key 都加一个前缀以防止与原生属性冲突
+    var prefix = hash;
+    sessionStorage.setItem = function(key, value) {
+       // 总是以字符串储存
+       heap[prefix + key] = value + '';
+    };
+    sessionStorage.getItem = function(key) {
+      // 项不存在时返回 null 而不是 undefined
+      return (prefix + key) in heap ? heap[prefix + key] : null;
+    };
+    sessionStorage.removeItem = function(key) {
+      delete heap[prefix + key];
+    };
+    sessionStorage.clear = function() {
       heap = {};
     };
   }
@@ -80,4 +118,3 @@ void function() {
     }
   };
 }();
-
